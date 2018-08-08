@@ -1,0 +1,1 @@
+chol_bmieg<-read.csv("chol_bmieg.csv")

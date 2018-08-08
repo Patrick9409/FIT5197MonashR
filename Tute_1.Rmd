@@ -1,0 +1,2214 @@
+---
+title: "Introductory Rrogramming in R"
+author: "Asef Nazari"
+date: "19 July 2018"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Faculty of IT
+
+Monash university
+
+
+# 0. How to Use Markdown
+
+Here we will practice how to use Markdown in oredr to create well represented text. By the way, <span style="color:red">double click everywhere on textx to access to the cell and see what is happening in the back</span>.
+
+To be able to use markdown, you need to chnage the cell type into markdown. Cells are for coding purpose by default.
+Let's start with creating headings. By adding one or more hashtags to teh beginning of a line you can convert it to a heading.
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+####### No more!
+
+You can use up to six hashtags to craete a level 6 heading. When you finish your typing, press shift and eneter together to run the cell. If you want to modify an exisitng markdown cell, double click on the cell.
+
+## 0.1 Paragraphs
+To craete a paragraph just leave and empty line between previously typed text.
+
+Here I made a new paragraph.
+
+## 0.2 Bulleted List
+Start each line by a star character and a space to craete bulleted list. Also, you can create nested bullet points by give some empty spaces in the next line.
+
+* One
+* Two
+  * Three
+  * Four
+    * Five
+    * Six
+  * Seven
+  * Eight
+* Ten
+
+You can do the same thing with a hyphen:
+- A
+- B
+  - C
+  - D
+    - E
+  - F
+- G
+   
+
+## 0.3 Numbered List
+You can create numbered list by starting a line by a number and a dot and a space:
+
+1. One
+2. Two
+3. Three
+
+### Practice:
+
+1. one
+   * Two
+   * Three
+2. Four
+   1. Five
+   2. Six
+3. Seven
+
+## 0.4 Bold and Italic
+
+To make the text bold, add two stars to teh begining and the end of a piece of text. For example, **the text here is bold.**
+
+To make a piece of text italic, just add one star to the begining and the end. For example, *the text here is italic.*
+
+Another way to make a piece of text italic and bold is to use one or two underscores before and after the text. For example, __I am making__ this _text italic_. __My name is __ _Li_
+
+## 0.5 Creating Links
+To create a link pointing somewhere else, put the link test inside a pair of square bracket and insert the URL into a pair of paranthesis. [ text ] ( link ). 
+
+For example, click [here](https://cran.r-project.org/) to go to R repostory. 
+
+You can provide hints for the destination of a link as well. Hover over the link below after running the cell.
+
+click [here](https://cran.r-project.org/ "R Cran") to go to R repostory. 
+
+## 0.6 Acknowledgement
+Most the materials here is inspired from [here](http://nestacms.com/docs/creating-content/markdown-cheat-sheet)
+
+
+# 1. The First Touch of R
+
+## 1.1 Using R as a Calculator to Do Arithmetic
+You can perform simple arithmetic by inserting numbers and an operation into a cell. Use as much as possible and appropriate paranthesis to make your expresions clear. Use # sign to add comments. Anything typed after the # symbol is ignored by R. Comments are very importanr in documenting programming. 
+
+#####################################################################################################################################
+```{r}
+# Addition  #comments
+3+5
+```
+
+
+```{r}
+3-5  #subtraction
+3*5  # multiplication
+3/5  #division
+```
+
+
+```{r}
+#Exponentiation could be done in two ways
+2**3
+2^3
+```
+
+
+```{r}
+#integer division. This is different from 3/5.
+3 %/% 5
+```
+
+
+```{r}
+# pay attention to their difference
+5/3
+5 %/% 3
+```
+
+
+```{r}
+# modulus or remainder
+5 %% 3
+```
+
+
+```{r}
+3+5/2*5-2^3 ##very hard to understand what is going on!
+```
+
+
+```{r}
+3+((5/2)*(5-2))^3 # use many paranthesis to clarify what you want.
+```
+
+## 1.2 Assignment
+A variable in R is a named storage that we can have access through R commands and change its value. A valid variable name consists of letters, numbers, the dot, and underline characters. A variable name strats with a letter or the dot. However, please don't name your variable strating with a dot in this unit! Always strat with a letter. 
+
+In R, a variable is created at the same time you assign a  value to it. After you created a variable, you can  perform manipulations. You can assign values into variables using $<-$  (a greater sign and a hyphen), or $=$ sign. It is recommended to use $<-$, and I am going to use this symbole. It is recommended by experts to reserve $=$ for specifying arguments to functions.
+
+
+```{r}
+x <- 5
+x #implicit printing or auto-printing
+```
+
+
+```{r}
+print(x) #explicit printing. The differences just because of the setting of R in jupyterhub
+# we will learn more on the difference and about [1] before the result, when we learn about vectors.
+```
+
+
+```{r}
+x <- x+3
+print(x)
+```
+
+
+```{r}
+y <- 7
+z <- x*y
+z
+```
+
+* R is case sensitive for capital letters. Thefore a variable x and X are different.
+
+
+```{r}
+x <- 5
+X<- 7
+print(x)
+print(X)
+```
+
+
+```{r}
+#Scientific notation
+2.54e5  #2.54 * 10 ^ 5
+7456.3e-2  #7456.3 * 10^(-2)
+```
+
+
+```{r}
+#rounding numbers
+2/3
+round(2/3,4) #rounds the result of 2/3 into 4  decimal places
+```
+
+
+```{r}
+? round  # to get more information about this function
+```
+
+### Exercise
+Based on [Australian Bureau of Statistics](http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/by%20Subject/1370.0.55.001~2011~Main%20Features~Population~3), Australian population in 2000 was 19.2 millions. If Australian population growth rate is 1.7% per year, what is the prediction of Australian population for 2020? If $P_0$ is the initial population, $r$ is the annual growth rate,  and we are interested to find the population $t$ years later, $P_t$, we use the following formula
+$$P_t = P_0(1+r)^t$$
+
+## 1.3 Managing Variables
+### List of Current Variables
+To find the list of exisitng variables in the current environment use ls() or objects() functins. 
+
+
+```{r}
+ls()
+```
+
+
+```{r}
+print(ls()) # Single and double quotes delimit character constants. They can be used interchangeably
+```
+
+
+```{r}
+myVariables <- ls()  # assign existing variable to a variables
+```
+
+
+```{r}
+print(myVariables)
+```
+
+
+```{r}
+objects()
+```
+
+### Deleting Variables
+You can delete any variale using rm() or remove() functions.
+
+
+```{r}
+ls()
+```
+
+
+```{r}
+objects()
+```
+
+
+```{r}
+rm(x)  # removes a variable
+```
+
+
+```{r}
+ls()
+```
+
+* You can delete all the variables at once. It is very useful, in particular, when you want to finish your session, and you want to clean up all the mess!
+
+
+```{r}
+ls()
+```
+
+
+```{r}
+rm(list=ls()) 
+```
+
+
+```{r}
+print(ls())
+```
+
+
+
+# 2. Data Types 
+
+## 2.1 Main Data Classes
+
+R has five basic or œatomic <span style="color:red">classes</span> of objects:
+
+* numeric:
+  * double (real numbers): values like 2.3, 3.14, -5.7634 , ...
+  * integer: values like 0,1,2, -4, ...
+* character: values like "GDDS", 'exe'
+* logical: TRUE and FALSE (always capital letters)
+* complex: we have nothing to do with it in this unit.
+
+
+```{r}
+typeof(2) # numbers by default are double
+typeof(2L) # to force to be integer
+typeof(3.14)
+typeof(TRUE)
+typeof("TRUE")
+```
+
+## 2.2 Vectors
+The most basic <span style="color:red">type</span> of R objects is a vector. All the objects we used so far are vectors of length 1. Vectors are variables with one or more values of the same type, e.g., all are of numeric class. For example, a numeric vector might consist of the numbers (1.2, 2.3, 0.2, 1.1).
+
+* Vectors are created by c() function (concatenatation function)
+* Also, they ca be created by vector() function: v <- vector("numeric", length=5)
+* should contain objects of the same class
+* if you put objects from different classes, an implicit coercion (the calss of value would be changed) will happen
+* Creating variables using seq and rep functions.
+
+
+```{r}
+v1 <- c(5,7,9) # a vector called v1 is created.
+```
+
+
+```{r}
+v1
+```
+
+
+```{r}
+print(v1)
+#this says v1 is a vector, or a sequence of objects, and the first one is 5.
+```
+
+
+```{r}
+v2 <- 3:35 # a sequence of consecutive integers are put in v2. The sequence starts from 3 and goes to 35
+print(v2)
+# the first item is 3 and the 26th item is 28.
+```
+
+
+```{r}
+v3 <- c("Helo", "Hi", "Bye") # a vector of characters
+print(v3)
+```
+
+
+```{r}
+v4 <- c(TRUE, TRUE, FALSE, TRUE, TRUE) # a vector of logical values
+v4
+```
+
+
+```{r}
+length(v4) # gives the length of a vector
+```
+
+
+```{r}
+v5 <- seq(2,8) #another way of making a vector of consecutive numbers. Same as 2:8
+v5
+```
+
+
+```{r}
+v6 <- seq(from=3, to=10, by=2) # equally you can write seq(3,10,2)
+print(v6)
+```
+
+
+```{r}
+#learn more about seq() function by typing ? seq
+?seq
+```
+
+
+```{r}
+v7 <- vector(mode="numeric", length=5) # another way of creating a vector
+print(v7)
+```
+
+
+```{r}
+v8 <- c(5, "a", 2) #different types, so a coercion happens. Be very careful about this.
+print(v8)
+```
+
+
+```{r}
+#accessing elements of a vector
+v8[1]
+print(v8[2])
+```
+
+
+```{r}
+vv <- c(1,2,3)
+vv
+vv[2] #prints the second item
+vv[2] <- 257 # changes the value stored in the second element
+vv
+```
+
+
+```{r}
+#to choose more than one element from a vector
+x <- c(12.2, 52.3, 10.2, 11.1)
+x[1] # only the first element
+x[c(1,3)] # the first and third elemment
+```
+
+
+```{r}
+# Adding an element to the end of a list
+v <- c(1,2,3)
+print(v)
+```
+
+
+```{r}
+v <- c(v, 100) # 100 is added to the end of a vector
+print(v)
+```
+
+
+```{r}
+# Create sequential data
+x1 <- 0:10  # Assigns number 0 through 10 to x1
+x2 <- 10:0  # Assigns number 10 through 0 to x2
+x3 <- seq(10)  # Counts from 1 to 10
+x4 <- seq(30, 0, by = -3)  # Counts down by 3
+```
+
+
+```{r}
+x <- c(1,3,6,9,0)
+x
+x[-2] # all the elements except the second element
+x[3] <- 200 #modify an element
+x
+# to delete a vector
+x <- NULL
+x
+```
+
+
+```{r}
+x <- c(2, 9, 7)
+x
+y <- c(x, x, 10)
+y
+```
+
+
+```{r}
+round(seq(1,3,length=10), 2)
+```
+
+
+```{r}
+seq(from = 2, by = -0.1, length.out = 4)
+```
+
+
+```{r}
+x <- rep(3,4)
+x
+```
+
+
+```{r}
+rep(1:5,3)
+```
+
+
+```{r}
+x <- c(7,3,5,2,0,1)
+y <- x[-3]
+y
+```
+
+
+```{r}
+y <- x[-length(x)] # always delets the final element
+y
+```
+
+## 2.3 Lists
+Other basic object in R is a list. A list is very similar to a vector, but it could contain objects from different classes. You can create a list using list() function. The main functionality of lists in putting outputs of functions inside. Later we will see an important example of lm() functions.
+
+
+```{r}
+L1 <- list(5, "a", 2)
+print(L1)
+# L1 has 3 elements, and each element is considered as a vector
+#pay attention to double brackets. It shows the elements of the list
+```
+
+
+```{r}
+L1 #auto printing
+```
+
+
+```{r}
+length(L1)
+```
+
+
+```{r}
+L2 <- list(c(1,2,3), c("One", "Two"), TRUE)
+print(L2)
+```
+
+
+```{r}
+L2
+```
+
+
+```{r}
+L1[1]
+```
+
+
+```{r}
+print(L2[1])
+```
+
+
+```{r}
+print(L2[[1]])
+```
+
+## 2.4 Numbers
+Numbers in R are considerd as __numeric__, (as real numbers with double precision) . If you want an integer, you need to explicitly add L to the end of the number, otherwise it is a double.
+
+Special numbers:
+* Inf, infinity, for $\frac{1}{0}$
+* NaN, not a number, for $\frac{0}{0}$
+* NA can be thought as a missing value
+
+
+```{r}
+x <- 1
+print(x)
+class(x)
+typeof(x)
+y <- 1L
+print(y)
+class(y)
+typeof(y)
+```
+
+
+```{r}
+c1 <- "Heloo" # character variable
+c2 <- "The World!" # another character variable
+paste(c1, c2)
+print(c(c1, c2))
+```
+
+
+```{r}
+sqrt(-2)  #NaN stands for œnot a number
+```
+
+## 2.5 Changing Class of a Value
+You saw that a vector contains values of only one class. If different classes mixed together by having valuesw ith different classes in a vector, an implicit coercion happens. It means R will convert all the values to a class that are the same. However, sometimes we want to change the type of a value ourselves, so we implemenet an explicit coercion by as.SomeClass() functions. 
+* as.numeric() to change the type into numeric if it is possibel
+* as.logical() to change into logical if it is possible
+* as.character()
+* as.complex()
+* as.integer()
+
+Sometimes R cannot convert one type to another, and gives NA. Also, you will get warning from R.
+
+
+```{r}
+x <- 1:5 #sequence of numbers
+class(x)
+y <- as.numeric(x)
+class(y)
+z <- as.logical(x)
+print(z)
+class(z)
+u <- as.character(z)
+print(u)
+class(u)
+```
+
+
+```{r}
+t <- as.numeric(u)
+t
+class(t)
+```
+
+
+```{r}
+#list does not have any problm with mixing data types. Very poerful!
+x <- list(14, "Hello", TRUE, list(23, "Hi", TRUE, FALSE))
+x
+```
+
+
+```{r}
+print(x)
+#elements of list has double brackets around them. Other objects have single bracket
+```
+
+## 2.6 Factors
+Categorical data in R are represented using factors. We will learn a lot about this type of data soon. Factors are stored as integers, but they are assigned labels. R sorts factors in alphabetical oredr. Factors can be ordered or unordered. R considers factors as nominal categorical variables, and "ordered" as ordinal categorical variables. 
+
+
+```{r}
+x <- factor(c("male", "fmale", "male", "male", "fmale", "male")) #create a factor object
+print(x)
+```
+
+
+```{r}
+levels(x) #alphabetical order
+```
+
+
+```{r}
+nlevels(x)
+```
+
+
+```{r}
+unclass(x)
+```
+
+
+```{r}
+table(x) #gives frequency count
+```
+
+
+```{r}
+levels(x)
+```
+
+
+```{r}
+summary(x)
+```
+
+
+```{r}
+#change the order of levels
+#this is important in linear regression. The first level is used as the baseline level.
+x <- factor(c("male", "fmale", "male", "male", "fmale", "male"), levels=c("male", "fmale"))
+print(x)
+```
+
+
+```{r}
+d <- c(1,1,2,3,1,3,3,2)
+d[1]+d[2] # integers
+fd <- factor(d)
+print(fd)
+fd[1]+fd[2] #factors, you will get warning
+unclass(fd) # bring down to integer vector
+```
+
+
+```{r}
+rd <- factor(d, labels=c("A", "B", "C")) # factor is as an integer vector where each integer has a label
+print(rd)
+```
+
+
+```{r}
+levels(rd) <- c("AA", "BB", "CC")
+print(rd)
+```
+
+
+```{r}
+is.factor(d)
+is.factor(fd)
+```
+
+
+```{r}
+#ordered factor variable
+x1 <- factor(c("low", "high", "medium", "high", "low", "medium", "high"))
+print(x1)
+x1f <- factor(x1, levels = c("low", "medium", "high"))
+print(x1f)
+```
+
+
+```{r}
+x1o <- ordered(x1, levels = c("low", "medium", "high"))
+print(x1o)
+```
+
+
+```{r}
+min(x1o) ## works!
+```
+
+
+```{r}
+is.factor(x1o)
+```
+
+
+```{r}
+attributes(x1o)
+```
+
+By using the gl() function, we can generate factor levels . It takes two integers as input which indicates how many levels and how many times each level.
+* gl(n, m, labels)
+* n is the number of levels
+* m is the number of repeatitions
+* labels is a vector of labels
+
+
+```{r}
+v <- gl(3, 4, labels = c("H1", "H2","H3"))
+print(v)
+```
+
+
+```{r}
+class(v)
+```
+
+## 2.7 Missing Values
+A variable might not have a value, ot its value might missing. In R missing values are displayed by the symbol NA (not avaiable). 
+* NA, not available
+* Makes certain calculations impossible
+* is.na()
+* is.nan()
+* NA values have class
+
+
+```{r}
+x1 <- c(4, 2.5, 3, NA, 1)
+summary(x1)  # Works with NA
+mean(x1)  # Doesn't work
+mean(x1, na.rm=TRUE)
+```
+
+
+```{r}
+is.na(x1)
+```
+
+
+```{r}
+# To find missing values
+which(is.na(x1))  # Give index number
+```
+
+
+```{r}
+# Ignore missing values with na.rm = T
+mean(x1, na.rm = T)
+```
+
+
+```{r}
+# Replace missing values with 0 (or other number)
+# In data wrangling you will learn a lot about this.
+x2 <- x1
+x2[is.na(x2)] <- 0
+x2
+```
+
+## 2.8 Subsetting
+
+* [] always returns an object of the same class
+* [[]] is used to extract elements from a list fo dataframe. It always return a single element.
+* $\$$ to extract elements from a list or dataframe unsing a name
+
+
+```{r}
+x <- c("a1", "a2", "a3", "a4", "a5", "a6")
+```
+
+
+```{r}
+x[1] #extracts the first item. it's a vector
+x[2:5] # extracts a sequence. it's a vector
+```
+
+
+```{r}
+x <- list(prime=c(2,3,5,7), even=c(0,2,4,6), odd=c(1,3,5,7), digit=3.14)
+```
+
+
+```{r}
+print(x)
+```
+
+
+```{r}
+print(x[1]) #extracts the first element of the list, and it is a list
+class(x[1])
+```
+
+
+```{r}
+print(x[[1]]) #extracts the first element and returns a vector.
+```
+
+
+```{r}
+print(x[4])
+```
+
+
+```{r}
+print(x[[4]])
+```
+
+
+```{r}
+x$digit
+```
+
+
+```{r}
+x[c(1,4)]
+```
+
+## 2.9 Vectorised Operations
+Makes life much easier!! We can treat vectors as single variables in R. sometimes we want to apply a particular calculation on all the members of a vector, or between two vectors.
+
+
+```{r}
+x <- 1:4
+2*x
+y <- 2:5
+print(x+y)
+```
+
+
+```{r}
+x[x>2]
+```
+
+
+```{r}
+print(x*y)
+```
+
+
+```{r}
+print(x>y)
+```
+
+
+```{r}
+# Matrices will be covered soon.
+m1 <- matrix(1:4,2,2)
+m2 <- matrix(2:5, 2,2)
+```
+
+
+```{r}
+m1+m2
+m1*m2
+m1%*%m2 #matrix multiplicatin
+```
+
+R can perform functions over entire vectors and can be used to select certain elements within a vector. Here is a alist of more frequent functions:
+* max(x)        
+* min(x)
+* sum(x)
+* mean(x)
+* var(x)
+* sd(x)
+* median(x)
+* range(x)
+
+# 3. Data Tables
+
+## 3.1 Matrices
+A matrix is a rectangular array of numbers. From technical perspective, it is a vector, with
+two additional attributes, namely, the numbers of rows and columns. Vctors we considered so far were one-dimensional. Matrices are a special type of vetor. They have dimension attribute. in other words, matrices are a multi-dimensional vectors.
+
+
+```{r}
+m <- matrix(nrow=2, ncol=3) #empty matrix with dimension
+m
+print(m)
+```
+
+
+```{r}
+attributes(m)
+```
+
+
+```{r}
+dim(m)
+```
+
+
+```{r}
+print(paste(dim(m)[1], " + ", dim(m)[2]))
+```
+
+
+```{r}
+m <- matrix(c(1,3,6,2,8,4), nrow=2, ncol=3 ) #matrices are build column-wise
+print(m)
+```
+
+
+```{r}
+str(m) # one of the most important functions
+```
+
+
+```{r}
+m[2,2]
+```
+
+Other commonly used approaches to create matrix are cbind() and rbind().
+
+
+```{r}
+#two other methods to creat matrices
+x <- c(1,11,111)
+y <- c(2,22,222)
+m1 <- cbind(x,y) #column-binding
+print(m1)
+print("****")
+m2 <- rbind(x,y) #raw-binding
+print(m2)
+```
+
+## 3.2 Data Frames
+Data frames are very important object in R. When you have $m$ obsrvation with $n$ attributes, you have a dataframe of size $m\times n$. As the attributes could be of any class, a data frame is technically a list, with each component being a vector corresponding to a column in our data œmatrix. Therefore, dataframes are a special type of list, where every element of this list should have the same length. Dataframes can store different classes of object in each column. Matrices, should have the same class for every element. 
+
+
+```{r}
+# to create a dataframe
+x <- c(1,2,3)
+y <- c("a", "b", "c")
+z <- c(TRUE, TRUE, FALSE)
+df <- data.frame(x,y,z)
+print(df)
+```
+
+
+```{r}
+attributes(df)
+```
+
+
+```{r}
+nrow(df)
+```
+
+
+```{r}
+ncol(df)
+```
+
+
+```{r}
+df[2,2]
+```
+
+
+```{r}
+z <- data.frame(c(1,2), c(3,4))
+z
+```
+
+
+```{r}
+class(z)
+```
+
+
+```{r}
+z1 <- data.frame(cbind(c(1,2), c(3,4)))
+z1
+class(z1)
+```
+
+### Names
+
+
+```{r}
+x <- c(3,5,7)
+names(x)
+```
+
+
+```{r}
+names(x) <- c("low", "med", "high")
+print(x)
+```
+
+
+```{r}
+names(x)
+```
+
+
+```{r}
+x
+```
+
+
+```{r}
+names(x) <- NULL
+x
+```
+
+
+```{r}
+y <- list(low=3, med=5, high=7)
+print(y)
+```
+
+
+```{r}
+# Access list elements by their name
+y$low
+print(y$low)
+```
+
+
+```{r}
+m <- matrix(1:6, nrow=3, ncol=2)
+dimnames(m)<- list(c("a", "b", "c"), c("d", "e"))
+```
+
+
+```{r}
+print(m)
+```
+
+
+```{r}
+colnames(m) <- c("male", "fmale")
+rownames(m) <- c("ice-cream", "coffee", "cake")
+print(m)
+```
+
+
+```{r}
+print(df)
+```
+
+
+```{r}
+row.names(df) <- c("f1", "f2", "f3")
+print(df)
+```
+
+
+```{r}
+colnames(df) <- c("rank", "character", "value")
+print(df)
+```
+
+
+```{r}
+names(df) <- c("r1", "r2", "r3")
+print(df)
+```
+
+
+```{r}
+attributes(df)
+```
+
+
+```{r}
+class(df)
+mode(df)
+typeof(df)
+```
+
+
+```{r}
+x<- 5
+print(x)
+names(x)
+```
+
+
+```{r}
+names(x) <- c("low")
+print(x)
+names(x)
+```
+
+
+```{r}
+attributes(x)
+```
+
+Matrices and dataframes are very similar to each other as both are generally two-dimensional. However, matrices are extensions of vectors, and dataframes are extensions of lists. Matrices have all the data of te same type. Therefore, when your data has different data types, use dataframes.
+
+
+```{r}
+m1<- matrix(1:25,5,5)
+m1
+```
+
+
+```{r}
+str(m1)
+```
+
+
+```{r}
+is.matrix(m1)
+```
+
+
+```{r}
+is.data.frame(m1)
+```
+
+
+```{r}
+df1 <- as.data.frame(m1)
+df1
+```
+
+
+```{r}
+str(df1)
+```
+
+
+```{r}
+#The object.size commands indicate how much memory of data take up in the computer
+print(paste("the size of df1 is ", object.size(df1), " bytes and the size of m1 is ", object.size(m1), " bytes" ))
+```
+
+## 3.3 Reading and Writing Data in R
+Generally we read data from a file. In this unit we will focus on reading .txt (tab delimitted) and .csv (comma separated values) data files. In all cases, we will read a data file into a dataframe. That's why being able to manipulate a dataframe is very important. You need to make sure that either the data file exists in your current working director, or you give a path to find the location of the file. Other than providing the name of the file, you would enter a sequence of parameters. please see ?read.table or ?read.csv to get an idea. 
+
+* __read.table()__ to read a .txt data file, and read.csv() for .csv files
+* source() to bring .r files and make the code inside the file available
+* write.table(), write.csv() to export data into a file.
+
+mydata <- read.table("c:/mydata.csv", header=TRUE, sep=",", row.names="id")
+
+After working with a dataset, we might like to save it. 
+
+write.table(mydata, "c:/mydata.txt", sep="\t")
+
+Important parameters
+* hearder=TRUE the first row is the header
+* sep="\t" tab delimitted
+* sep=","
+* 
+
+
+```{r}
+getwd() #gives you the current working directory
+#pay attention to the way that a directory is represented in your OS
+```
+
+
+```{r}
+dir() # a list of files and folders
+```
+
+
+```{r}
+data <- read.table(file='airfoil_self_noise.txt')
+```
+
+
+```{r}
+str(data)
+```
+
+
+```{r}
+dim(data)
+head(data)
+```
+
+```{r}
+write.csv(data, file="mydata.csv")
+```
+
+
+```{r}
+dir()
+```
+
+
+```{r}
+write.table(data, file="mydata222.txt")
+```
+
+
+```{r}
+dir()
+```
+
+
+
+```{r}
+# Split up data
+a1 <- data[1:14, 1:3]  # Starting data
+a2 <- data[1:14, 4:6]  # New column to add (with "Year" to match)
+b <- data[15:16, ]     # New rows to add
+write.table(a1, "data.a1.txt", sep="\t")
+write.table(a2, "data.a2.txt", sep="\t")
+write.table(b, "data.b.txt", sep="\t")
+rm(list=ls()) # Clear out everything to start fresh
+
+# Import data
+a1t <- read.table("data.a1.txt", sep="\t")
+a2t <- read.table("data.a2.txt", sep="\t")
+```
+
+## 3.4 Manageing your files
+* getwd(): to get the current working directory, inessence where you are now
+* setwd(): to change the working directory
+* dir(): gives youa list of all files and folders
+* ls(): list a exisiting variables
+
+
+```{r}
+#options() # gives you the setting of R. Most of its parameters are not changeable in jupyterhub
+```
+
+## 3.5 Built-in Datasets
+There plenty of interesting datasets already avaiable in R. Actually, there is a package, dataset, which is installed by default, and has many datasets inside. We will use these built-in datasets a lot.
+
+
+```{r}
+#To see a list of the available datasets
+data()
+```
+
+
+```{r}
+?airmailes
+```
+
+
+```{r}
+str(airmiles)
+```
+
+## 3.6 Packages
+Packages are collections of R functions that are ready to use. 
+* library()   # see all packages installed 
+* search()    # see packages currently loaded
+* install.packages() to install a package. you don't need this in juoyterhub.
+* require() to load a pckage to use it
+
+
+```{r}
+# See current packages
+search()   # Shows packages that are currently loaded
+```
+
+
+```{r}
+# TO INSTALL AND USE PACKAGES
+# Can use menus: Tools > Install Packages... (or use Package window)
+# Or can use scripts, which can be saved in incorporated in source
+#install.packages("ggplot2")  # Downloads package from CRAN and installs in R
+
+# Make package available; 
+require("ggplot2") 
+```
+
+## 3.7 Frequently used functions
+* length(object) # number of elements or components
+* str(object)    # structure of an object 
+* class(object)  # class or type of an object
+* names(object)  # names
+* c(object,object,...)       # combine objects into a vector
+* cbind(object, object, ...) # combine objects as columns
+* rbind(object, object, ...) # combine objects as rows 
+* ls()       # list current objects
+* rm(object) # delete an object
+* sort()
+
+
+```{r}
+# sort is another useful function
+x <- c(2,5,3,9,4,1)
+x
+sort(x, decreasing = FALSE)
+sort(x, decreasing = TRUE)
+```
+
+
+
+
+# 4. Controlling the Execution flow 
+
+## 4.1  Logical Expressions
+R allows us to create logical expressions and vectors in order to manipulate logical quantities. To create logical vectors, you may use boolean vales TRUE, FALSE, or NA (for missing / not available) directly, in addition to using the condition/logic operations. Pay attention that R treats TRUE as 1 and FALSE as 0.
+
+### R Relational Operators
+* <
+* >
+* $<=$
+* $>=$
+* ==
+* $!=$
+
+### R Logical Operators
+* $x \& y \hspace{0.5cm}$ for (x and y): Element-wise logical AND
+* $x \&\& y \hspace{0.5cm}$ : Logical AND
+* $x | y \hspace{0.5cm}$ for (x or y) Element-wise logical OR
+* $x || y \hspace{0.5cm}$: Logical OR
+* $!x \hspace{0.5cm}$ for (not x): Logical NOT
+
+Operators $\&$ and $|$ perform element-wise operation producing result having length of the longer operand. But $\&\&$ and $||$ examines only the first element of the operands resulting into a single length logical vector.
+
+
+```{r}
+2 > 3
+```
+
+
+```{r}
+4 != 5
+```
+
+
+```{r}
+(3 != 12) & (2.7 >= 1.9)
+```
+
+
+```{r}
+y <- c(TRUE, TRUE, FALSE, TRUE, 5 > 2)
+y
+sum(y)
+```
+
+
+```{r}
+z <- 3
+z>= 3 && z<7
+z<10 || z>5
+```
+
+
+```{r}
+x <- c(1:10)
+x[(x>8) | (x<5)]
+```
+
+
+```{r}
+x <- c(1:10)
+x[(x>=8) & (x>=5)]
+```
+
+
+```{r}
+x <- 1
+y <- 3
+(x==1) & (y==3)
+```
+
+
+```{r}
+(x==1) | (y!=3)
+```
+
+
+```{r}
+x <- c(TRUE, TRUE, FALSE, TRUE, FALSE,  0, 5) # zero is considered FALSE, and nozero numbers are TRUE
+y <- c(FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)
+```
+
+
+```{r}
+x
+```
+
+
+```{r}
+!x
+```
+
+
+```{r}
+x & y
+```
+
+
+```{r}
+x && y
+```
+
+
+```{r}
+x | y
+```
+
+
+```{r}
+x || y
+```
+
+
+```{r}
+x <- c(TRUE, TRUE, FALSE, TRUE, FALSE)
+y <- c(TRUE, TRUE,TRUE, TRUE,TRUE)
+
+x && y
+```
+
+
+```{r}
+#ifelse function
+x <- seq(10)
+ifelse(x %% 2 == 0,"even","odd")
+```
+
+## 4.2 Control Structures
+
+Helps you to control the flow of execution of the program
+* if, else: to check a condition
+* for: to loop for a fixed number of times
+* while: to loop while a condition is TRUE
+* break: to break a loop
+* next: to skip an iteration
+* return: to exit a function
+
+### If structure
+#### if statement
+if (test_expression) {
+   statement
+}
+
+#### if-else
+
+if (test_expression) {
+   statement1
+} else {
+   statement2
+}
+
+#### Nested if
+
+if ( test_expression1) {
+   statement1
+} else if ( test_expression2) {
+   statement2
+} else if ( test_expression3) {
+   statement3
+} else
+   statement4
+
+```{r}
+x <- 2
+if(x == 2){
+    print("Yesss")
+}
+```
+
+
+```{r}
+if(x > 2){
+    print("Greater")
+} else if(x < 2) {
+    print("Smaller")
+} else {
+    print("Equal")
+}
+```
+
+## any() and all() functions
+
+
+```{r}
+x <- 1:10
+if (any(x > 4)) print("Well done!")
+if (any(x > 12)) print("No Way!")
+if (all(x > 7)) print("Another one!")
+if (all(x > 0)) print("Hit the road!")
+```
+
+### For structure
+for (val in sequence)
+{
+    statement
+}
+
+```{r}
+for (i in 1:5){
+    print(i)
+}
+```
+
+
+```{r}
+y <- c("a", "b", "c", "d")
+# makes loops iterations based on length of y
+for (i in seq_along(y)){
+    print(i)
+}
+```
+
+
+```{r}
+seq_along(6)
+```
+
+
+```{r}
+for(k in c("a", "b", "c", "d")){
+    print(k)
+}
+```
+
+
+```{r}
+# nested for loop
+m <- matrix(nrow=2, ncol=3)
+for (i in 1:nrow(m)){
+    for(j in 1:ncol(m)){
+        m[i,j] <- i*j
+    }
+}
+m
+```
+
+
+```{r}
+count <- 5
+while(count >0){
+    print(count)
+    count <- count -1
+}
+```
+
+
+```{r}
+for(i in 1:10){
+    if(i %% 2==0){
+        next
+    }
+    print(i)
+}
+```
+
+
+```{r}
+for(i in 1:20){
+    if(i %% 2==0){
+        next
+    }
+    print(i)
+    if(i>10){
+        break
+    }
+}
+```
+
+### While structure
+while (test_expression)
+{
+   statement
+}
+
+```{r}
+count <- 1
+
+while (count < 6) {
+   print(count)
+   count <- count+1
+}
+```
+
+
+# 5. Functions
+
+## 5.1 User defined Functions
+
+It is easy to define a functon. Here is a simple example.
+func_name <- function (argument) {
+   statement
+}
+
+```{r}
+# your function needs a name
+myfunc1 <- function(n){
+    n*n
+} # the function will return the last value
+```
+
+
+```{r}
+# to call a function
+myfunc1(5)
+```
+
+
+```{r}
+t <- 1:5
+myfunc1(t)
+```
+
+
+```{r}
+x <- 10
+y <- myfunc1(x)
+y
+```
+
+
+```{r}
+# the variable y has a default value. if you don't mention it, it will be 2.
+f2 <- function(x,y=2){
+    x+y
+}
+```
+
+
+```{r}
+f2(5,5)
+```
+
+
+```{r}
+f2(5)
+```
+
+
+```{r}
+fun3 <- function(x){
+    str(x)
+}
+```
+
+
+```{r}
+fun3(f2)
+```
+
+
+```{r}
+col.mean <- function(y, removeNA=TRUE){
+    nc <- ncol(y)
+    #print(nc)
+    means <- numeric(nc) # a vector of size nc containing 0
+    for(i in 1:nc){
+        means[i] <- mean(y[,i], na.rm=removeNA) # remember maen() is sensitive for NA
+    }
+    means
+}
+#very last expresion is the return value
+```
+
+
+```{r}
+col.mean(airquality)
+```
+
+
+```{r}
+dim(airquality)
+```
+
+
+```{r}
+make.power <- function(n){ #a function returns a function
+    pow <- function(x){
+        x^n
+    }
+    pow
+}
+```
+
+
+```{r}
+cube <- make.power(3)
+```
+
+
+```{r}
+cube(2)
+```
+
+
+```{r}
+drawFun <- function(f){
+    x <- seq(-5, 5, len=1000)
+    y <- sapply(x, f)
+    plot(x, y, type="l", col="blue")
+}
+```
+
+
+```{r}
+drawFun(cos)
+```
+
+# R Built-in Functions
+To use R's built-in functions we need to follow their arguments. A function takes arguments as input and returns an object as output. 
+
+
+```{r}
+x <- 1:10
+sum(x)
+length(x)
+median(x)
+```
+
+
+```{r}
+? seq
+```
+
+
+```{r}
+#Type the name of the function without any parentheses or arguments
+seq 
+#if you see UseMethod, there are multiple methods (functions) 
+#associated with the seq function
+### somefunctions might be hidden!
+```
+
+
+```{r}
+methods(seq)
+```
+
+
+```{r}
+#seq.Date
+```
+
+
+```{r}
+seq()
+```
+
+
+```{r}
+args(seq)
+```
+
+
+```{r}
+args(round)
+```
+
+
+```{r}
+ls
+```
+
+
+# 6. Simulation
+
+## 6.1 Generating Random Numbers
+Here are functions for probability distribution in R. They help us simulate variables from given probability distributions.
+* rnorm: generates random normal variables
+* pnorm: evaluate the cumulative distribution of Noraml distribtion
+* dnorm: evaluates normal probaility density
+* qnorm: quantiles
+
+For each peobability density function, there are four functions related to them:
+* d for density
+* r for random number generator
+* p for cumulative distribution
+* q for quantile function
+
+Examples:
+* dnorm(x,mean=0, sd=1, log=FALSE)
+* pnorm(q,mean=0, sd=1, lower.tail=TRUE, log.p=FALSE)
+* dnorm(p,mean=0, sd=1, lower.tail=TRUE, log.p=FALSE)
+* dnorm(n,mean=0, sd=1)
+
+If $F$ is the cumulative distribution function for a standard nor,al distribution, then $\text{pnorm}(q)=F(q)$ and $\text{qnorm}(p)= F^{-1}(p)$
+
+
+```{r}
+#Simulation
+# rnorm, dnorm, pnorm, 
+x <- rnorm(10)
+x
+```
+
+
+```{r}
+x <- rnorm(10,20,2)
+x
+```
+
+
+```{r}
+summary(x)
+```
+
+
+```{r}
+set.seed(1)
+rnorm(5)
+rnorm(5)
+set.seed(1)
+rnorm(5)
+rnorm(5)
+```
+
+
+```{r}
+ppois(2,2) ##cumulative distribution
+##Pr(x<=2)
+ppois(4,2) ##Pr(x<=4)
+```
+
+
+```{r}
+set.seed(20)
+x <- rnorm(100)
+e <- rnorm(100,0,2)
+y <- 0.5+2*x+e
+summary(y)
+```
+
+
+```{r}
+plot(x,y)
+```
+
+## 6.2 Random Sampling
+The sample() fnction draws randomly from a specified set of (scalar) objects allowing you to sample from arbitrary distributions.
+
+Summary:
+* Drawing samples from specific probability distribution can be done with r- function
+* Standard distributions are Normal, Poisson, Biomial, Exponential, Gamma, etc.
+* the sample() function can be used tio draw random samples from abitrary vectors
+* Settng the random number generator via set.seed() is ritical for reproducability.
+
+
+```{r}
+set.seed(1)
+sample(1:10, 4) # without replacement
+```
+
+
+```{r}
+sample(1:10,4)
+```
+
+
+```{r}
+sample(letters, 5)
+```
+
+
+```{r}
+sample(1:10) #permutation
+```
+
+
+```{r}
+sample(1:10)
+```
+
+
+```{r}
+sample(1:10, replace=TRUE) #sample with replacement
+```
+
+
+# 7. Plotting
+
+## 7.1  Building graphics from data
+Dataframes are a powerful tool to organizing and visualizing data. However, it is hard to interpret large data sets, no matter how organized they are. Sometimes it is much easier to interpret graphs than numbers.
+
+### Some of the key base plotting functions
+* __plot()__: plots based on the object type of the imput
+* __lines()__: add lines to the plot (just connect dots)
+* __points()__: add points
+* __text()__: add text labels to a plot using x,y coordinates
+* __title()__: add titles
+* __mtext()__:add arbitrary text to the margin
+* __axis()__: adding axis ticks/labels
+
+### some important parameters
+* __pch__: the plotting symbol (plotting character)
+* __lty__: the line type; solid, dashed, ... 
+* __lwd__: the line width; lwd=2
+* __col__: color; col="red"
+* __xlab__: x-axis label; xlab="units"
+* __ylab__: y-axix label; ylab="price"
+
+
+```{r}
+plot(c(2,3), c(3,4))
+```
+
+
+```{r}
+x <- seq(-2*pi,2*pi,0.1)
+plot(x, sin(x),
+    main="my Sine function",
+    xlab="the values",
+    ylab="the sine values")
+```
+
+Different values for type
+* "p" - points (defult)
+* "l" - lines
+* "b" - both points and lines
+* "c" - empty points joined by lines
+* "o" - overplotted points and lines
+* "s" and "S" - stair steps
+* "h" - histogram-like vertical lines
+* "n" - does not produce any points or lines
+
+
+```{r}
+x <- seq(-2*pi,2*pi,0.1)
+plot(x, sin(x),
+    main="my Sine function",
+    xlab="the values",
+    ylab="the sine values",
+    type="s",
+    col="blue")
+```
+
+Calling plot() multiple times will replace the current graph with the previous one. However, sometimes we wish to overlay the plots in order to compare the results. This is done with the functions __lines()__ and __points()__ to add lines and points respectively, to the existing plot.
+
+
+```{r}
+plot(x, sin(x),
+ main="Overlaying Graphs",
+ type="l",
+ col="blue")
+
+lines(x,cos(x), col="red")
+
+legend("topleft",
+      c("sin(x)","cos(x)"),
+      fill=c("blue","red")
+)
+```
+
+By setting some graphical parameters we can put several graphs in a single plot. The __par()__ is used for global graphics parameters. R programming has a lot of graphical parameters which control the way our graphs are displayed.
+* before doing any change record the standard default parameters oldpar <- par()
+* __las__: the rientation of axix labels on the plot
+* __bg__: the background color
+* __mar__: the margin size
+* __oma__: the outer margin size
+* __mfrow__: number of plots per row (plots are filled row-wise)
+* __mfcol__: number of plots per row (plots are filled column-wise)
+* at the end, par(oldpar) and neglect the warning messages.
+
+
+```{r}
+#par() # to see all the parameters
+```
+
+
+```{r}
+par("mar") # to see the margins, bottom, left, top, right
+```
+
+
+```{r}
+# par(mfrow=c(1,2))    # set the plotting area into a 1*2 array
+```
+
+
+```{r}
+oldpar <- par()
+# make labels and margins smaller
+par(cex=0.7, mai=c(0.1,0.1,0.2,0.1))
+
+Temperature <- airquality$Temp
+
+# define area for the histogram
+par(fig=c(0.1,0.7,0.3,0.9))
+hist(Temperature)
+
+# define area for the boxplot
+par(fig=c(0.8,1,0,1), new=TRUE)
+boxplot(Temperature)
+
+# define area for the stripchart
+par(fig=c(0.1,0.67,0.1,0.25), new=TRUE)
+stripchart(Temperature, method="jitter")
+par(oldpar)
+```
+
+
+```{r}
+str(mtcars)
+```
+
+
+```{r}
+plot(mtcars$wt, mtcars$mpg, main="MPG and weight", col="blue", pch=5)
+abline(lm(mtcars$mpg~mtcars$wt), col="red", lwd=3)
+```
+
+
+```{r}
+plot(mtcars$wt, mtcars$mpg, 
+     main="MPG and weight", 
+     col="blue", 
+     pch=5,
+    xlab="wt",
+    ylab="mpg")
+abline(lm(mtcars$mpg~mtcars$wt), col="red", lwd=3)
+```
+
+
+```{r}
+oldpar <- par()
+par(mfrow = c(1,2))
+hist(islands, breaks = 16)
+boxplot(islands)
+par(oldpar)
+```
+
+
+```{r}
+drawFun <- function(f){
+    x <- seq(-5, 5, len=1000)
+    y <- sapply(x, f)
+    plot(x, y, type="l", col="blue")
+}
+
+drawFun(sin)
+abline(h=0, col="red", lwd=3, lty=1)
+abline(v=2, col="green", lwd=3, lty=2)
+abline(2,1, col="pink", lwd=3, lty=3)
+```
+
+
+```{r}
+#develop a function which overlays a normal approximation density function and kernel density function over a histogram
+
+funn <- function(x){
+    h <- hist(x, col="red", breaks=10, freq=FALSE)
+    xfit<-seq(min(x)-10,max(x)+10,length=40) 
+    yfit<-dnorm(xfit,mean=mean(x),sd=sd(x)) 
+    #yfit <- yfit*diff(h$mids[1:2])*length(x) 
+    lines(xfit, yfit, col="blue", lwd=2)
+    d <- density(mtcars$mpg) # returns the density data 
+    lines(d, col="green", lwd=2)
+    
+    
+}
+
+funn(mtcars$mpg)
+```
+
+## 7.2 Saving Garphs
+
+
+```{r}
+Temperature <- airquality$Temp
+```
+
+
+```{r}
+#to save as a jpeg to the currnt directory
+jpeg(file="plot1.jpeg")
+hist(Temperature, col="darkgreen")
+dev.off()
+
+#saving as a png
+png(file="plot2.png",
+   width=600, height=350)
+hist(Temperature, col="gold")
+dev.off()
+
+#saving as a pdf file
+pdf(file="saving_plot4.pdf")
+hist(Temperature, col="violet")
+dev.off()
+```
+
+
+```{r}
+x <- seq(-4,4, 0.01)
+y <- sin(x)
+plot(x,y, ylim=c(-2,7), type="l", col="blue")
+lines(c(1.5,2.5,3),c(3,3,5), col="red")
+lines(c(0,0.5,1),c(0,2,0), col="green")
+```
+
+
+```{r}
+plot(c(1,2,3), c(1,2,4))
+```
+
+
+```{r}
+plot(c(1,2,3), c(1,2,4))
+```
+
+
+```{r}
+x <- c(1,2,3)
+y <- c(1,3,8)
+plot(x,y)
+lmout <- lm(y ~ x)
+abline(lmout)
+```
+
+plot() is a generic function meaning that it is a placeholder for a family of functions. The
+function that actually gets called will depend on the class of the object on which it is called. Using plot(), you can add componenets one by one.
+* __abline()__ then adds a line to the current graph
+* __lines()__ gets a vector of x values and a vector of y values, and joins the ponits to each other
+* __points()__ function adds a set of (x,y)-points
+* __legend()__ is used to add a legend to a multicurve graph
+* __text()__ function places some text anywhere in the current graph
+* __mtext()__ adds text in the margins
+* __polygon()__ draws arbitrary polygonal objects
+
+
+```{r}
+plot(c(0,2,3), c(1,2,4))
+```
+
+
+```{r}
+x <- c(0,2,3)
+y <- c(1,3,8)
+plot(x,y) # same as before
+fit <- lm(y ~ x) # a regression line
+#The call to abline() then adds a line to the current graph. 
+#abline(c(2,1)) adds y = x + 2
+abline(fit) #adds a line to a plot.
+abline(h=1, col="red")
+abline(v=2, col="blue")
+abline(3,4, col="green") # y=3x+4
+```
+
+
+```{r}
+plot(x,y, type="l", col="blue")
+lines(c(1.5,2.5),c(3,3), col="red")
+text(2.5,4,"R is COOL")
+```
+
+
+```{r}
+f <- function(x) return(sin(x))
+curve(f,0,2)
+polygon(c(1.2,1.4,1.4,1.2),c(0,0,f(1.3),f(1.3)),col="gray")
+```
+
+
+```{r}
+f <- function(x) return(1-exp(-x))
+curve(f,0,2)
+polygon(c(1.2,1.4,1.4,1.2),c(0,0,f(1.3),f(1.3)),col="gray")
+```
+
+
+```{r}
+plot(x,y)
+lines(lowess(x,y))
+```
+
+
+```{r}
+g <- function(t) { return (t^2+1)^0.5 } # define g()
+x <- seq(0,5,length=10000) # x = [0.0004, 0.0008, 0.0012,..., 5]
+y <- g(x) # y = [g(0.0004), g(0.0008), g(0.0012), ..., g(5)]
+plot(x,y,type="l")
+```
+
+
+```{r}
+curve((x^2+1)^0.5,0,5)
+```
+
+
+```{r}
+x <- c(0,2,3)
+y <- c(1,3,8)
+plot(x,y) # same as before
+fit <- lm(y ~ x) # a regression line
+#The call to abline() then adds a line to the current graph. 
+#abline(c(2,1)) adds y = x + 2
+abline(fit) #adds a line to a plot.
+abline(h=1, col="red")
+abline(v=2, col="blue")
+abline(3,4, col="green") # y=3x+4
+curve((x^2+1)^0.5,0,5,add=T, col="yellow")
+```
+
+
+```{r}
+f <- function(x) return((x^2+1)^0.5)
+plot(f,0,5) # the argument must be a function name
+```
